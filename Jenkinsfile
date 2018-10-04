@@ -1,27 +1,16 @@
 pipeline {
     agent any
     stages {
-    	   stage('Test') {
-	            steps {
-	                sh 'sbt test'
-	                junit 'target/test-reports/*.xml'
-            }
-        }
-  	     stage('Build') {
-	            steps {
-	                sh 'sbt dist'
-            }
-        }
         stage('Deliver for development') {
             when {
                 branch 'development' 
             }
             steps {
-                sh 'echo "Publish Over SSH..."'
-	                     sh 'scp -v -i /home/leonux/aws/MyKeyPair.pem -o StrictHostKeyChecking=no target/universal/poc_admin-1.0.zip ec2-user@18.237.70.190:poc/'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@18.237.70.190 ./deliver.sh'                
+                sh 'Starting DEV deploy..."'
+	                     build job: 'Dev_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@18.237.70.190 ./kill.sh'
+	            	     bat 'cd .ssh'         
+		    	     bat 'ssh -i MyKeyPair.pem ec2-user@34.219.45.91 ./kill.sh'
             }
         }
         stage('Deliver for release') {
@@ -29,11 +18,11 @@ pipeline {
                 branch 'release'  
             }
             steps {
-                sh 'echo "Publish Over SSH..."'
-	                     sh 'scp -v -i /home/leonux/aws/MyKeyPair.pem -o StrictHostKeyChecking=no target/universal/poc_admin-1.0.zip ec2-user@52.43.3.218:poc/'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@52.43.3.218 ./deliver.sh'                
+                sh 'Starting ITG deploy..."'
+	                     build job: 'ITG_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@52.43.3.218 ./kill.sh'
+	            	     bat 'cd .ssh'         
+		    	     bat 'ssh -i MyKeyPair.pem ec2-user@34.221.96.160 ./kill.sh'
             }
         }
 	stage('Deploy to PROD') {
@@ -41,11 +30,11 @@ pipeline {
                 branch 'master' 
             }
             steps {
-                sh 'echo "Publish Over SSH..."'
-	                     sh 'scp -v -i /home/leonux/aws/MyKeyPair.pem -o StrictHostKeyChecking=no target/universal/poc_admin-1.0.zip ec2-user@34.222.142.196:poc/'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./deliver.sh'                
+                sh 'Starting PROD deploy..."'
+	                     build job: 'PROD_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-	                     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./kill.sh'
+	            	     bat 'cd .ssh'         
+		    	     bat 'ssh -i MyKeyPair.pem ec2-user@34.219.125.64 ./kill.sh'
             }
         }
     }
