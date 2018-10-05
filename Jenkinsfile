@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 sh 'Starting DEV deploy..."'
-		    	     build "Dev_job"
+		    	     build job: 'Dev_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
 	            	     bat 'bash'         
 		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.219.45.91 ./kill.sh'
@@ -19,7 +19,7 @@ pipeline {
             }
             steps {
                 sh 'Starting ITG deploy..."'
-	                     build "ITG_job"
+	                     build job: 'ITG_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
 		    	     bat 'bash'         
 		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.221.96.160 ./kill.sh'
@@ -31,7 +31,7 @@ pipeline {
             }
             steps {
                 sh 'Starting PROD deploy..."'
-	                     build "PROD_job"
+	                     build job: 'PROD_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
 		    	     bat 'bash'         
 		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.219.125.64 ./kill.sh'
