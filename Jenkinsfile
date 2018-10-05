@@ -9,8 +9,7 @@ pipeline {
                 sh 'Starting DEV deploy..."'
 		    	     build job: 'Dev_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-	            	     bat 'bash'         
-		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.219.45.91 ./kill.sh'
+	            	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@18.237.70.190 ./kill.sh'
             }
         }
         stage('Deliver for release') {
@@ -21,8 +20,7 @@ pipeline {
                 sh 'Starting ITG deploy..."'
 	                     build job: 'ITG_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-		    	     bat 'bash'         
-		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.221.96.160 ./kill.sh'
+		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@52.43.3.218 ./kill.sh'
             }
         }
 	stage('Deploy to PROD') {
@@ -33,8 +31,7 @@ pipeline {
                 sh 'Starting PROD deploy..."'
 	                     build job: 'PROD_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-		    	     bat 'bash'         
-		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.219.125.64 ./kill.sh'
+		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./kill.sh'
             }
         }
     }
