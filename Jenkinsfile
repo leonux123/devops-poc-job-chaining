@@ -29,7 +29,7 @@ pipeline {
             }
             steps {
                 sh 'Starting PROD deploy..."'
-	                     build 'PROD_job'
+	                     build '.././PROD_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
 		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./kill.sh'
             }
