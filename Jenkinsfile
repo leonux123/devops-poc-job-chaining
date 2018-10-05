@@ -27,8 +27,8 @@ pipeline {
             }
             steps {
 		    bat 'echo Starting PROD deploy...'
-		    	     bat 'C:\Program Files\Git\bin\bash'         
-		    	     bat 'ssh -i /c/Users/larias6/.ssh/MyKeyPair.pem ec2-user@34.215.225.240 ./kill.sh'
+		    	     build job: 'PROD_job'
+	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
             }
         }
     }
