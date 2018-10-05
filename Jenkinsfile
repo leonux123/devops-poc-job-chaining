@@ -28,10 +28,8 @@ pipeline {
                 branch 'master' 
             }
             steps {
-                sh 'echo "Starting PROD deploy..."'
-	                     build job: 'devops-poc-1'
+	                     build job: 'PROD_job'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
-		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./kill.sh'
             }
         }
     }
