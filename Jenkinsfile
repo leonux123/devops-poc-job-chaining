@@ -6,9 +6,10 @@ pipeline {
                 branch 'development' 
             }
             steps {
-                bat 'echo Starting DEV deploy...'
-		    	     build job: 'Dev_job'
+                sh 'echo "Starting DEV deploy..."'
+		    	     build job: 'devops-poc-X'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
+	            	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@18.237.70.190 ./kill.sh'
             }
         }
         stage('Deliver for release') {
@@ -16,9 +17,10 @@ pipeline {
                 branch 'release'  
             }
             steps {
-                bat 'echo Starting ITG deploy...'
-	                     build job: 'ITG_job'
+                sh 'echo "Starting ITG deploy..."'
+	                     build job: 'devops-poc-XX'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
+		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@52.43.3.218 ./kill.sh'
             }
         }
 	stage('Deploy to PROD') {
@@ -26,9 +28,10 @@ pipeline {
                 branch 'master' 
             }
             steps {
-		    bat 'echo Starting PROD deploy...'
-		    	     build job: 'PROD_job'
+                sh 'echo "Starting PROD deploy..."'
+	                     build job: 'devops-poc-1'
 	                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
+		    	     sh 'ssh -i /home/leonux/aws/MyKeyPair.pem ec2-user@34.222.142.196 ./kill.sh'
             }
         }
     }
